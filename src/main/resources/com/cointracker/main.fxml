@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.chart.StackedBarChart?>
@@ -19,7 +20,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="486.0" prefWidth="795.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cointracker.MainController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="486.0" prefWidth="870.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cointracker.MainController">
    <children>
       <MenuBar>
         <menus>
@@ -71,17 +72,14 @@
                                     <Insets bottom="10.0" left="10.0" right="10.0" />
                                  </HBox.margin>
                               </TableView>
-                              <StackedBarChart maxWidth="-Infinity" minWidth="-Infinity" prefHeight="278.0" prefWidth="119.0" HBox.hgrow="ALWAYS">
+                              <BarChart fx:id="chartVariacaoHoje" barGap="2.0" categoryGap="0.0" legendVisible="false" minWidth="-Infinity" prefHeight="374.0" prefWidth="154.0" title="Variação hoje">
                                 <xAxis>
                                   <CategoryAxis side="BOTTOM" />
                                 </xAxis>
                                 <yAxis>
                                   <NumberAxis side="LEFT" />
                                 </yAxis>
-                                 <HBox.margin>
-                                    <Insets bottom="10.0" right="10.0" />
-                                 </HBox.margin>
-                              </StackedBarChart>
+                              </BarChart>
                            </children>
                         </HBox>
                      </children>
