@@ -27,6 +27,6 @@ mvn javafx:run
 
 ![cotacoes.png](images/cotacoes.png)
 
-![cotacoes.png](images/cotacoes.png)
+![conversor.png](images/conversor.png)
 
 ![historico-de-cotacoes.png](images/historico-de-cotacoes.png)
