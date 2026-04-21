@@ -136,7 +136,6 @@ public class MainController {
         Task<Map<String, String>> task = new Task<>() {
             @Override
             protected Map<String, String> call() throws Exception {
-                System.out.println("fazendo a pesquisa...");
                 return cotacaoClient.buscarMoedas();
             }
         };
@@ -189,13 +188,11 @@ public class MainController {
         Task<Double> task = new Task<>() {
             @Override
             protected Double call() throws Exception {
-                System.out.println("fazendo a conversao...");
                 return cotacaoClient.converter(qtd, moeda1, moeda2);
             }
         };
 
         task.setOnSucceeded(e -> {
-            System.out.println("success");
             tableItems.add(new TableHistoricoConversaoItem(
                     qtd, moeda1, moeda2, task.getValue()
             ));
