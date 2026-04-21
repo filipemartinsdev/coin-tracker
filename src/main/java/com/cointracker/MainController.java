@@ -93,7 +93,7 @@ public class MainController {
     private TableColumn<TableHistoricoCotacaoItem, LocalDate> colDataHistoricoCotacao;
 
     @FXML
-    private TableColumn<TableHistoricoCotacaoItem, Double> colValorHistoricoCotacao;
+    private TableColumn<TableHistoricoCotacaoItem, Double> colFechamentoHistoricoCotacao;
 
     @FXML
     private TableColumn<TableHistoricoCotacaoItem, Double> colVariacaoHistoricoCotacao;
@@ -217,14 +217,13 @@ public class MainController {
         tableHistoricoCotacao.setItems(tableHistoricoCotacaoItens);
         setupColVariacaoHistoricoCotacao();
         setupColDataHistoricoCotacao();
-        setupColValorHistoricoCotacao();
+        setupColFechamentoHistoricoCotacao();
         setupColAltaHistoricoCotacao();
         setupColBaixaHistoricoCotacao();
     }
 
     private void setupColVariacaoHistoricoCotacao() {
         colVariacaoHistoricoCotacao.setCellValueFactory(new PropertyValueFactory<>("variacao"));
-
 
         colVariacaoHistoricoCotacao.setCellFactory(column -> new TableCell<TableHistoricoCotacaoItem, Double>() {
             @Override
@@ -259,9 +258,10 @@ public class MainController {
         });
     }
 
-    private void setupColValorHistoricoCotacao() {
-        colValorHistoricoCotacao.setCellValueFactory(new PropertyValueFactory<>("valor"));
-        colValorHistoricoCotacao.setCellFactory(column -> new TableCell<TableHistoricoCotacaoItem, Double>() {
+    private void setupColFechamentoHistoricoCotacao() {
+        colFechamentoHistoricoCotacao.setCellValueFactory(new PropertyValueFactory<>("fechamento"));
+
+        colFechamentoHistoricoCotacao.setCellFactory(column -> new TableCell<TableHistoricoCotacaoItem, Double>() {
             @Override
             protected void updateItem(Double item, boolean empty) {
                 super.updateItem(item, empty);
@@ -439,13 +439,13 @@ public class MainController {
             for(int i = tableHistoricoCotacaoItens.size()-1; i >= 0; i--){
                 var item = tableHistoricoCotacaoItens.get(i);
                 String dataFormatada = item.getData().format(formatador);
-                series.getData().add(new XYChart.Data<>(dataFormatada, item.getValor()));
+                series.getData().add(new XYChart.Data<>(dataFormatada, item.getFechamento()));
             }
 
             chartHistoricoCotacao.getData().add(series);
 
             for (XYChart.Data<String, Double> data : series.getData()) {
-                Tooltip tooltip = new Tooltip("Data: " + data.getXValue() + "\nValor: " + data.getYValue());
+                Tooltip tooltip = new Tooltip("Data: " + data.getXValue() + "\nFechamento: " + data.getYValue());
 
                 tooltip.setShowDelay(javafx.util.Duration.ZERO);
 
@@ -472,12 +472,12 @@ public class MainController {
                 .atZone(ZoneId.systemDefault())
                 .toLocalDate();
 
-        Double valor = Double.parseDouble(conversaoData.bid);
+        Double fechamento = Double.parseDouble(conversaoData.bid);
         Double alta = Double.parseDouble(conversaoData.high);
         Double baixa = Double.parseDouble(conversaoData.low);
         Double variacao = Double.parseDouble(conversaoData.varBid);
 
-        return new TableHistoricoCotacaoItem(data, valor, alta, baixa, variacao);
+        return new TableHistoricoCotacaoItem(data, fechamento, alta, baixa, variacao);
     }
 }
 

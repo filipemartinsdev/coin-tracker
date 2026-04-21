@@ -21,7 +21,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="486.0" prefWidth="870.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cointracker.MainController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="581.0" prefWidth="989.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cointracker.MainController">
    <children>
       <MenuBar>
         <menus>
@@ -129,7 +129,7 @@
                <content>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                      <children>
-                        <SplitPane dividerPositions="0.5" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                        <SplitPane dividerPositions="0.5298885511651469" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                            <items>
                               <VBox prefHeight="342.0" prefWidth="237.0">
                                  <children>
@@ -148,7 +148,7 @@
                                     <TableView fx:id="tableHistoricoCotacao" prefHeight="367.0" prefWidth="283.0" VBox.vgrow="ALWAYS">
                                       <columns>
                                         <TableColumn fx:id="colDataHistoricoCotacao" prefWidth="75.0" text="Data" />
-                                        <TableColumn fx:id="colValorHistoricoCotacao" prefWidth="75.0" text="Valor" />
+                                        <TableColumn fx:id="colFechamentoHistoricoCotacao" prefWidth="75.0" text="Fechamento" />
                                           <TableColumn fx:id="colAltaHistoricoCotacao" prefWidth="75.0" text="Alta" />
                                           <TableColumn fx:id="colBaixaHistoricoCotacao" prefWidth="75.0" text="Baixa" />
                                           <TableColumn fx:id="colVariacaoHistoricoCotacao" prefWidth="75.0" text="Variação" />

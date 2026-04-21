@@ -5,14 +5,14 @@ import java.time.LocalDate;
 
 public class TableHistoricoCotacaoItem {
     private LocalDate data;
-    private Double valor;
+    private Double fechamento;
     private Double alta;
     private Double baixa;
     private Double variacao;
 
-    public TableHistoricoCotacaoItem(LocalDate data, Double valor, Double alta, Double baixa, Double variacao) {
+    public TableHistoricoCotacaoItem(LocalDate data, Double fechamento, Double alta, Double baixa, Double variacao) {
         this.data = data;
-        this.valor = valor;
+        this.fechamento = fechamento;
         this.alta = alta;
         this.baixa = baixa;
         this.variacao = variacao;
@@ -22,8 +22,8 @@ public class TableHistoricoCotacaoItem {
         return data;
     }
 
-    public Double getValor() {
-        return valor;
+    public Double getFechamento() {
+        return fechamento;
     }
 
     public Double getAlta() {
