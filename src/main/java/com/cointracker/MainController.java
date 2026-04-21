@@ -9,6 +9,7 @@ import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
 import javafx.scene.chart.AreaChart;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.NumberAxis;
@@ -442,6 +443,16 @@ public class MainController {
             }
 
             chartHistoricoCotacao.getData().add(series);
+
+            for (XYChart.Data<String, Double> data : series.getData()) {
+                Tooltip tooltip = new Tooltip("Data: " + data.getXValue() + "\nValor: " + data.getYValue());
+
+                tooltip.setShowDelay(javafx.util.Duration.ZERO);
+
+                Tooltip.install(data.getNode(), tooltip);
+
+                data.getNode().setOnMouseEntered(mouseEvent -> data.getNode().setCursor(Cursor.HAND));
+            }
         });
 
         task.setOnFailed(e -> {
