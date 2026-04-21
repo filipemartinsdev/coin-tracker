@@ -66,6 +66,7 @@ public class CotacaoClient {
         return map.keySet().stream()
                 .filter(k -> k.startsWith(moeda))
                 .map(k -> Arrays.stream(k.split("-")).toList().get(1))
+                .sorted()
                 .toList();
     }
 
@@ -83,7 +84,6 @@ public class CotacaoClient {
 
         try {
             json = client.send(request, HttpResponse.BodyHandlers.ofString()).body();
-            System.out.println(json);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
@@ -96,5 +96,55 @@ public class CotacaoClient {
         Double unitValue = Double.parseDouble(response.get(moeda1+moeda2).bid);
 
         return unitValue * qtd;
+    }
+
+    public List<ConversaoResponse.ConversaoData> buscarHistoricoCotacao(String moeda, int dias) {
+        HttpClient client = HttpClient.newHttpClient();
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .GET()
+                .uri(URI.create(URL+"/daily/"+moeda+"/"+dias))
+                .build();
+
+        String json;
+
+        try {
+            json = client.send(request, HttpResponse.BodyHandlers.ofString()).body();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        Type type = new TypeToken<List<ConversaoResponse.ConversaoData>>(){}.getType();
+        return gson.fromJson(json, type);
+    }
+
+    public List<String> buscarCoversoesDisponiveisPara(String moeda) {
+        HttpClient client = HttpClient.newHttpClient();
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .GET()
+                .uri(URI.create(URL+"/available"))
+                .build();
+
+        String json;
+
+        try {
+            json = client.send(request, HttpResponse.BodyHandlers.ofString()).body();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        Type type = new TypeToken<Map<String, String>>(){}.getType();
+        Map<String, String> map = gson.fromJson(json, type);
+
+        return map.keySet().stream()
+                .filter(k -> k.endsWith(moeda))
+                .map(k -> Arrays.stream(k.split("-")).toList().get(0))
+                .sorted()
+                .toList();
     }
 }
