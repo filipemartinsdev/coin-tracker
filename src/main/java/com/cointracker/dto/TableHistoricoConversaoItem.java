@@ -1,20 +1,20 @@
 package com.cointracker.dto;
 
 public class TableHistoricoConversaoItem {
-    public Integer quantidade;
+    public Double valor;
     public String de;
     public String para;
     public Double resultado;
 
-    public TableHistoricoConversaoItem(Integer quantidade, String de, String para, Double resultado) {
-        this.quantidade = quantidade;
+    public TableHistoricoConversaoItem(Double valor, String de, String para, Double resultado) {
+        this.valor = valor;
         this.de = de;
         this.para = para;
         this.resultado = resultado;
     }
 
-    public Integer getQuantidade() {
-        return quantidade;
+    public Double getValor() {
+        return valor;
     }
 
     public String getDe() {

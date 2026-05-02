@@ -1,8 +1,10 @@
 package com.cointracker;
 
-import com.cointracker.dto.ConversaoResponse;
 import com.cointracker.dto.TableHistoricoConversaoItem;
-import com.cointracker.dto.TableHistoricoCotacaoItem;
+import com.cointracker.model.Cotacao;
+import com.cointracker.model.Moeda;
+import com.cointracker.service.AwesomeAPI;
+import com.cointracker.service.CoinClient;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -19,16 +21,14 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.StringConverter;
 
 import java.text.NumberFormat;
-import java.time.Instant;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 public class MainController {
-    private CotacaoClient cotacaoClient = new CotacaoClient();
+//    private final CotacaoClient cotacaoClient = new CotacaoClient();
+    private final CoinClient coinClient = new AwesomeAPI();
 
     @FXML
     private Button btnCalcularConversao;
@@ -52,7 +52,7 @@ public class MainController {
     private TextField inputPesquisaCotacao;
 
     @FXML
-    private Spinner<Integer> spinQtdConversao;
+    private Spinner<Double> spinQtdConversao;
 
     @FXML
     private TableView<?> tableCotacao;
@@ -87,24 +87,24 @@ public class MainController {
 
 
     @FXML
-    private TableView<TableHistoricoCotacaoItem> tableHistoricoCotacao;
+    private TableView<Cotacao> tableHistoricoCotacao;
 
     @FXML
-    private TableColumn<TableHistoricoCotacaoItem, LocalDate> colDataHistoricoCotacao;
+    private TableColumn<Cotacao, LocalDate> colDataHistoricoCotacao;
 
     @FXML
-    private TableColumn<TableHistoricoCotacaoItem, Double> colFechamentoHistoricoCotacao;
+    private TableColumn<Cotacao, Double> colFechamentoHistoricoCotacao;
 
     @FXML
-    private TableColumn<TableHistoricoCotacaoItem, Double> colVariacaoHistoricoCotacao;
+    private TableColumn<Cotacao, Double> colVariacaoHistoricoCotacao;
 
     @FXML
-    private TableColumn<TableHistoricoCotacaoItem, Double> colAltaHistoricoCotacao;
+    private TableColumn<Cotacao, Double> colAltaHistoricoCotacao;
 
     @FXML
-    private TableColumn<TableHistoricoCotacaoItem, Double> colBaixaHistoricoCotacao;
+    private TableColumn<Cotacao, Double> colBaixaHistoricoCotacao;
 
-    private final ObservableList<TableHistoricoCotacaoItem> tableHistoricoCotacaoItens = FXCollections.observableArrayList();
+    private final ObservableList<Cotacao> tableHistoricoCotacaoItens = FXCollections.observableArrayList();
 
     @FXML
     private AreaChart<String, Double> chartHistoricoCotacao;
@@ -126,7 +126,7 @@ public class MainController {
     }
 
     private void setupSpinQtdConversao() {
-        SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 999_999_999, 1);
+        SpinnerValueFactory<Double> valueFactory = new SpinnerValueFactory.DoubleSpinnerValueFactory(1, 999_999_999, 1);
 
         spinQtdConversao.setValueFactory(valueFactory);
         spinQtdConversao.setEditable(true);
@@ -164,7 +164,9 @@ public class MainController {
         Task<List<String>> task = new Task<>() {
             @Override
             protected List<String> call() throws Exception {
-                return cotacaoClient.buscarMoedas().keySet().stream().toList();
+                return coinClient.buscarMoedas().stream()
+                        .map(Moeda::codigo)
+                        .toList();
             }
         };
 
@@ -186,7 +188,7 @@ public class MainController {
         Task<List<String>> task = new Task<>() {
             @Override
             protected List<String> call() throws Exception {
-                return cotacaoClient.buscarCoversoesDisponiveisPara("BRL").stream().toList();
+                return coinClient.buscarConversoesDisponiveisPara("BRL");
             }
         };
 
@@ -207,7 +209,7 @@ public class MainController {
     private void setupTableHistoricoConversao() {
         tableHistoricoConversao.setItems(tableHistoricoConversaoItens);
 
-        colQuantidadeConversao.setCellValueFactory(new PropertyValueFactory<>("quantidade"));
+        colQuantidadeConversao.setCellValueFactory(new PropertyValueFactory<>("valor"));
         colDeConversao.setCellValueFactory(new PropertyValueFactory<>("de"));
         colParaConversao.setCellValueFactory(new PropertyValueFactory<>("para"));
         colResultadoConversao.setCellValueFactory(new PropertyValueFactory<>("resultado"));
@@ -225,7 +227,7 @@ public class MainController {
     private void setupColVariacaoHistoricoCotacao() {
         colVariacaoHistoricoCotacao.setCellValueFactory(new PropertyValueFactory<>("variacao"));
 
-        colVariacaoHistoricoCotacao.setCellFactory(column -> new TableCell<TableHistoricoCotacaoItem, Double>() {
+        colVariacaoHistoricoCotacao.setCellFactory(column -> new TableCell<Cotacao, Double>() {
             @Override
             protected void updateItem(Double item, boolean empty) {
                 super.updateItem(item, empty);
@@ -242,7 +244,7 @@ public class MainController {
     private void setupColDataHistoricoCotacao() {
         colDataHistoricoCotacao.setCellValueFactory(new PropertyValueFactory<>("data"));
 
-        colDataHistoricoCotacao.setCellFactory(column -> new TableCell<TableHistoricoCotacaoItem, LocalDate>() {
+        colDataHistoricoCotacao.setCellFactory(column -> new TableCell<Cotacao, LocalDate>() {
             @Override
             protected void updateItem(LocalDate item, boolean empty) {
                 super.updateItem(item, empty);
@@ -261,7 +263,7 @@ public class MainController {
     private void setupColFechamentoHistoricoCotacao() {
         colFechamentoHistoricoCotacao.setCellValueFactory(new PropertyValueFactory<>("fechamento"));
 
-        colFechamentoHistoricoCotacao.setCellFactory(column -> new TableCell<TableHistoricoCotacaoItem, Double>() {
+        colFechamentoHistoricoCotacao.setCellFactory(column -> new TableCell<Cotacao, Double>() {
             @Override
             protected void updateItem(Double item, boolean empty) {
                 super.updateItem(item, empty);
@@ -277,7 +279,7 @@ public class MainController {
 
     private void setupColAltaHistoricoCotacao() {
         colAltaHistoricoCotacao.setCellValueFactory(new PropertyValueFactory<>("alta"));
-        colAltaHistoricoCotacao.setCellFactory(column -> new TableCell<TableHistoricoCotacaoItem, Double>() {
+        colAltaHistoricoCotacao.setCellFactory(column -> new TableCell<Cotacao, Double>() {
             @Override
             protected void updateItem(Double item, boolean empty) {
                 super.updateItem(item, empty);
@@ -293,7 +295,7 @@ public class MainController {
 
     private void setupColBaixaHistoricoCotacao() {
         colBaixaHistoricoCotacao.setCellValueFactory(new PropertyValueFactory<>("baixa"));
-        colBaixaHistoricoCotacao.setCellFactory(column -> new TableCell<TableHistoricoCotacaoItem, Double>() {
+        colBaixaHistoricoCotacao.setCellFactory(column -> new TableCell<Cotacao, Double>() {
             @Override
             protected void updateItem(Double item, boolean empty) {
                 super.updateItem(item, empty);
@@ -332,10 +334,10 @@ public class MainController {
     void pesquisarCotacoes(ActionEvent event) {
         String response;
 
-        Task<Map<String, String>> task = new Task<>() {
+        Task<List<Cotacao>> task = new Task<>() {
             @Override
-            protected Map<String, String> call() throws Exception {
-                return cotacaoClient.buscarMoedas();
+            protected List<Cotacao> call() throws Exception {
+                return coinClient.buscarCotacaoMoedas();
             }
         };
 
@@ -360,12 +362,11 @@ public class MainController {
         Task<List<String>> task = new Task<>() {
             @Override
             protected List<String> call() throws Exception {
-                return cotacaoClient.buscarCoversoesDisponiveisPara(moeda1);
+                return coinClient.buscarConversoesDisponiveisDe(moeda1);
             }
         };
 
         task.setOnSucceeded(e -> {
-
             cBoxMoeda2Conversor.getItems().addAll(task.getValue());
         });
 
@@ -380,14 +381,14 @@ public class MainController {
 
     @FXML
     void calcularConversao(ActionEvent event) {
-        Integer qtd = spinQtdConversao.getValue();
+        Double qtd = spinQtdConversao.getValue();
         String moeda1 = cBoxMoeda1Conversor.getSelectionModel().getSelectedItem();
         String moeda2 = cBoxMoeda2Conversor.getSelectionModel().getSelectedItem();
 
         Task<Double> task = new Task<>() {
             @Override
             protected Double call() throws Exception {
-                return cotacaoClient.converter(qtd, moeda1, moeda2);
+                return coinClient.converter(moeda1, moeda2, qtd);
             }
         };
 
@@ -416,19 +417,15 @@ public class MainController {
         String moeda = cBoxMoedaHistoricoCotacao.getSelectionModel().getSelectedItem();
         Integer qtd = spinDiasHistoricoCotacao.getValue();
 
-        Task<List<ConversaoResponse.ConversaoData>> task = new Task<>() {
+        Task<List<Cotacao>> task = new Task<>() {
             @Override
-            protected List<ConversaoResponse.ConversaoData> call() throws Exception {
-                return cotacaoClient.buscarHistoricoCotacao(moeda, qtd);
+            protected List<Cotacao> call() throws Exception {
+                return coinClient.buscarHistoricoCotacao(moeda, qtd);
             }
         };
 
         task.setOnSucceeded(e -> {
-            tableHistoricoCotacaoItens.addAll(
-                    task.getValue().stream()
-                        .map(from -> converterParaTabela(from))
-                        .toList()
-            );
+            tableHistoricoCotacaoItens.addAll(task.getValue());
 
             chartHistoricoCotacao.getData().clear();
 
@@ -462,22 +459,6 @@ public class MainController {
 
         Thread thread = new Thread(task);
         thread.start();
-    }
-
-
-    private TableHistoricoCotacaoItem converterParaTabela(ConversaoResponse.ConversaoData conversaoData){
-        long timestamp = Long.parseLong(conversaoData.timestamp);
-
-        LocalDate data = Instant.ofEpochSecond(timestamp)
-                .atZone(ZoneId.systemDefault())
-                .toLocalDate();
-
-        Double fechamento = Double.parseDouble(conversaoData.bid);
-        Double alta = Double.parseDouble(conversaoData.high);
-        Double baixa = Double.parseDouble(conversaoData.low);
-        Double variacao = Double.parseDouble(conversaoData.varBid);
-
-        return new TableHistoricoCotacaoItem(data, fechamento, alta, baixa, variacao);
     }
 }
 

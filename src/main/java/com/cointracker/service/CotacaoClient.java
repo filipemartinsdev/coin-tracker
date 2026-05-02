@@ -1,4 +1,4 @@
-package com.cointracker;
+package com.cointracker.service;
 
 import com.cointracker.dto.ConversaoResponse;
 import com.google.gson.Gson;
@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+@Deprecated
 public class CotacaoClient {
     private static String URL = "https://economia.awesomeapi.com.br/json";
 
