@@ -4,14 +4,16 @@ import java.time.LocalDate;
 
 public class Cotacao {
     private String codigoMoeda;
+    private String nomeMoeda;
     private Double fechamento;
     private Double alta;
     private Double baixa;
     private Double variacao;
     private LocalDate data;
 
-    public Cotacao(String codigoMoeda, Double fechamento, Double alta, Double baixa, Double variacao, LocalDate data) {
+    public Cotacao(String codigoMoeda, String nomeMoeda, Double fechamento, Double alta, Double baixa, Double variacao, LocalDate data) {
         this.codigoMoeda = codigoMoeda;
+        this.nomeMoeda = nomeMoeda;
         this.fechamento = fechamento;
         this.alta = alta;
         this.baixa = baixa;
@@ -25,6 +27,14 @@ public class Cotacao {
 
     public void setCodigoMoeda(String codigoMoeda) {
         this.codigoMoeda = codigoMoeda;
+    }
+
+    public String getNomeMoeda() {
+        return nomeMoeda;
+    }
+
+    public void setNomeMoeda(String nomeMoeda) {
+        this.nomeMoeda = nomeMoeda;
     }
 
     public Double getFechamento() {

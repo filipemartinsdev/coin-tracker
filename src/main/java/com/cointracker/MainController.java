@@ -27,17 +27,40 @@ import java.util.List;
 import java.util.Locale;
 
 public class MainController {
-//    private final CotacaoClient cotacaoClient = new CotacaoClient();
     private final CoinClient coinClient = new AwesomeAPI();
 
     @FXML
-    private Button btnCalcularConversao;
-
-    @FXML
-    private Button btnPesquisar;
-
-    @FXML
     private Button btnRefresh;
+
+    @FXML
+    private ProgressBar progressBarCotacao;
+
+    @FXML
+    private TableView<Cotacao> tableCotacao;
+
+    @FXML
+    private TableColumn<Cotacao, String> colCotacaoNome;
+
+    @FXML
+    private TableColumn<Cotacao, String> colCotacaoCodigo;
+
+    @FXML
+    private TableColumn<Cotacao, Double> colCotacaoValor;
+
+    @FXML
+    private TableColumn<Cotacao, Double> colCotacaoAlta;
+
+    @FXML
+    private TableColumn<Cotacao, Double> colCotacaoBaixa;
+
+    @FXML
+    private TableColumn<Cotacao, Double> colCotacaoVariacao;
+
+    private final ObservableList<Cotacao> tableCotacaoItens = FXCollections.observableArrayList();
+
+
+    @FXML
+    private Button btnCalcularConversao;
 
     @FXML
     private ComboBox<String> cBoxMoeda1Conversor;
@@ -53,10 +76,6 @@ public class MainController {
 
     @FXML
     private Spinner<Double> spinQtdConversao;
-
-    @FXML
-    private TableView<?> tableCotacao;
-
 
     @FXML
     private TableView<TableHistoricoConversaoItem> tableHistoricoConversao;
@@ -114,8 +133,7 @@ public class MainController {
 
     @FXML
     void initialize() {
-        Platform.runLater(this::setupChartVariacaoHoje);
-        Platform.runLater(this::applyChartColors);
+        Platform.runLater(this::setupTableCotacao);
         Platform.runLater(this::setupCBoxMoeda1Conversor);
         Platform.runLater(this::setupTableHistoricoConversao);
         Platform.runLater(this::setupSpinQtdConversao);
@@ -124,6 +142,96 @@ public class MainController {
         Platform.runLater(this::setupTableHistoricoCotacao);
         Platform.runLater(this::setupAreaChartHistoricoCotacao);
     }
+
+    private void setupTableCotacao(){
+        tableCotacao.setItems(tableCotacaoItens);
+
+        setupColCotacaoNome();
+        setupColCotacaoCodigo();
+        setupColCotacaoValor();
+        setupColCotacaoAlta();
+        setupColCotacaoBaixa();
+        setupColCotacaoVariacao();
+
+        refreshCotacoes(new ActionEvent());
+    }
+
+    private void setupColCotacaoNome(){
+        colCotacaoNome.setCellValueFactory(new PropertyValueFactory<>("nomeMoeda"));
+    };
+
+    private void setupColCotacaoCodigo(){
+        colCotacaoCodigo.setCellValueFactory(new PropertyValueFactory<>("codigoMoeda"));
+    }
+
+    private void setupColCotacaoValor(){
+        colCotacaoValor.setCellValueFactory(new PropertyValueFactory<>("fechamento"));
+
+        colCotacaoValor.setCellFactory(column -> new TableCell<Cotacao, Double>() {
+            @Override
+            protected void updateItem(Double item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setText(String.format(Locale.of("pt", "BR"), "R$ %.6f", item));
+                }
+            }
+        });
+    }
+
+    private void setupColCotacaoAlta(){
+        colCotacaoAlta.setCellValueFactory(new PropertyValueFactory<>("alta"));
+
+        colCotacaoAlta.setCellFactory(column -> new TableCell<Cotacao, Double>() {
+            @Override
+            protected void updateItem(Double item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setText(String.format(Locale.of("pt", "BR"), "R$ %.6f", item));
+                }
+            }
+        });
+    }
+
+    private void setupColCotacaoBaixa(){
+        colCotacaoBaixa.setCellValueFactory(new PropertyValueFactory<>("baixa"));
+
+        colCotacaoBaixa.setCellFactory(column -> new TableCell<Cotacao, Double>() {
+            @Override
+            protected void updateItem(Double item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setText(String.format(Locale.of("pt", "BR"), "R$ %.6f", item));
+                }
+            }
+        });
+    }
+
+    private void setupColCotacaoVariacao(){
+        colCotacaoVariacao.setCellValueFactory(new PropertyValueFactory<>("variacao"));
+
+        colCotacaoVariacao.setCellFactory(column -> new TableCell<Cotacao, Double>() {
+            @Override
+            protected void updateItem(Double item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setText(String.format(Locale.of("pt", "BR"), "R$ %.6f", item));
+                }
+            }
+        });
+    }
+
 
     private void setupSpinQtdConversao() {
         SpinnerValueFactory<Double> valueFactory = new SpinnerValueFactory.DoubleSpinnerValueFactory(1, 999_999_999, 1);
@@ -138,16 +246,6 @@ public class MainController {
         spinDiasHistoricoCotacao.setValueFactory(valueFactory);
         spinDiasHistoricoCotacao.setEditable(true);
     }
-
-    private void setupChartVariacaoHoje() {
-        XYChart.Series<String, Double> serie1 = new XYChart.Series<>();
-
-        serie1.getData().add(new XYChart.Data<>("min", 3.5021));
-        serie1.getData().add(new XYChart.Data<>("now", 3.5900));
-        serie1.getData().add(new XYChart.Data<>("max", 4.1112));
-
-        chartVariacaoHoje.getData().add(serie1);
-    }
     private void applyChartColors() {
         String[] cores = {"#e74c3c", "#3498db", "#2ecc71"}; // Vermelho, Azul, Verde
 
@@ -157,7 +255,6 @@ public class MainController {
             data.getNode().setStyle("-fx-bar-fill: " + cores[indice] + ";");
             indice++;
         }
-
     }
 
     private void setupCBoxMoeda1Conversor() {
@@ -313,11 +410,13 @@ public class MainController {
         yAxisChartHistoricoCotacao.setTickLabelFormatter(new StringConverter<Number>() {
             private final NumberFormat format = NumberFormat.getNumberInstance(new Locale("pt", "BR"));
 
-            @Override public String toString(Number number) {
+            @Override
+            public String toString(Number number) {
                 return format.format(number);
             }
 
-            @Override public Number fromString(String string) {
+            @Override
+            public Number fromString(String string) {
                 try {
                     return format.parse(string);
                 } catch (Exception e) {
@@ -327,31 +426,37 @@ public class MainController {
         });
     }
 
-
     // finish setup ☝
 
     @FXML
-    void pesquisarCotacoes(ActionEvent event) {
-        String response;
+    void atualizarGraficoCotacao(){
+        chartVariacaoHoje.getData().clear();
 
-        Task<List<Cotacao>> task = new Task<>() {
-            @Override
-            protected List<Cotacao> call() throws Exception {
-                return coinClient.buscarCotacaoMoedas();
-            }
-        };
+        XYChart.Series<String, Double> series = new XYChart.Series<>();
 
-        task.setOnSucceeded(e -> {
-            System.out.println(task.getValue());
-        });
+        Cotacao cotacaoSelecionada = tableCotacao.getSelectionModel().getSelectedItem();
 
-        task.setOnFailed(e -> {
-            Throwable exception = task.getException();
-            exception.printStackTrace();
-        });
+        series.getData().add(new XYChart.Data<>("baixa", cotacaoSelecionada.getBaixa()));
+        series.getData().add(new XYChart.Data<>("atual", cotacaoSelecionada.getFechamento()));
+        series.getData().add(new XYChart.Data<>("alta", cotacaoSelecionada.getAlta()));
 
-        Thread thread = new Thread(task);
-        thread.start();
+        chartVariacaoHoje.getData().add(series);
+        applyChartColors();
+        applyTooltipGraficoCotacao(series);
+    }
+
+    void applyTooltipGraficoCotacao(XYChart.Series<String, Double> series){
+        for (XYChart.Data<String, Double> data : series.getData()) {
+            Double valor = data.getYValue();
+
+            Tooltip tooltip = new Tooltip("Valor: R$ "+valor);
+
+            tooltip.setShowDelay(javafx.util.Duration.ZERO);
+
+            Tooltip.install(data.getNode(), tooltip);
+
+            data.getNode().setOnMouseEntered(mouseEvent -> data.getNode().setCursor(Cursor.HAND));
+        }
     }
 
     @FXML
@@ -408,7 +513,31 @@ public class MainController {
     }
 
     @FXML
-    void refreshCotacoes(ActionEvent event) {}
+    void refreshCotacoes(ActionEvent event) {
+        progressBarCotacao.setOpacity(1);
+
+        tableCotacaoItens.clear();
+
+        Task<List<Cotacao>> task = new Task<>() {
+            @Override
+            protected List<Cotacao> call() throws Exception {
+                return coinClient.buscarCotacaoMoedas();
+            }
+        };
+
+        task.setOnSucceeded(e -> {
+            tableCotacaoItens.addAll(task.getValue());
+            progressBarCotacao.setOpacity(0);
+        });
+
+        task.setOnFailed(e -> {
+            System.out.println("Deu algum erro ai zé");
+            progressBarCotacao.setOpacity(0);
+        });
+
+        Thread thread = new Thread(task);
+        thread.start();
+    }
 
     @FXML
     void buscarHistoricoCotacao(ActionEvent event) {

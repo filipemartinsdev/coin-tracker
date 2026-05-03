@@ -15,6 +15,7 @@ import java.net.http.HttpResponse;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -112,6 +113,7 @@ public class AwesomeAPI implements CoinClient{
 
         return new Cotacao(
                 conversaoData.code,
+                conversaoData.name != null ? conversaoData.name.split("/")[0] : "",
                 Double.parseDouble(conversaoData.bid),
                 Double.parseDouble(conversaoData.high),
                 Double.parseDouble(conversaoData.low),
@@ -122,8 +124,15 @@ public class AwesomeAPI implements CoinClient{
 
     @Override
     public List<Cotacao> buscarCotacaoMoedas() {
-//        TODO: IMPLEMENT THIS
-        return null;
+        List<String> moedasDisponiveisParaConversaoBRL = buscarConversoesDisponiveisPara("BRL");
+
+        List<Cotacao> cotacoes = new ArrayList<>();
+
+        for (String codigoMoeda :  moedasDisponiveisParaConversaoBRL) {
+            cotacoes.add(buscarHistoricoCotacao(codigoMoeda, 1).getFirst());
+        }
+
+        return cotacoes;
     }
 
     @Override

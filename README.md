@@ -9,3 +9,6 @@ Aplicativo desktop para fazer consulta e conversão entre moedas.
 - JavaFX
 - Maven
 
+## Arquitetura
+
+O Coin Tracker utiliza a arquitetura **MVC** (Model-View-Controller), aproveitando funções nativas do framework JavaFX para isso.
