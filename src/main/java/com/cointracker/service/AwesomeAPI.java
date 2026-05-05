@@ -1,12 +1,13 @@
 package com.cointracker.service;
 
 import com.cointracker.dto.ConversaoResponse;
+import com.cointracker.excetion.MoedaNaoEncontradaException;
+import com.cointracker.excetion.RequisicaoFalhouException;
 import com.cointracker.model.Cotacao;
 import com.cointracker.model.Moeda;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.io.IOException;
 import java.lang.reflect.Type;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -22,11 +23,16 @@ import java.util.Map;
 
 public class AwesomeAPI implements CoinClient{
     private static String URL = "https://economia.awesomeapi.com.br/json";
-    private final Gson gson = new Gson();
+    private final Gson gson;
+    private final HttpClient client;
+
+    public AwesomeAPI(Gson gson, HttpClient client) {
+        this.gson = gson;
+        this.client = client;
+    }
+
     @Override
     public List<Moeda> buscarMoedas() {
-        HttpClient client = HttpClient.newHttpClient();
-
         HttpRequest request = HttpRequest.newBuilder()
                 .GET()
                 .uri(URI.create(URL+"/available/uniq"))
@@ -38,8 +44,6 @@ public class AwesomeAPI implements CoinClient{
             json = client.send(request, HttpResponse.BodyHandlers.ofString()).body();
         } catch (Exception e) {
             throw new RuntimeException(e);
-        } finally {
-            client.close();
         }
 
         Type type = new TypeToken<Map<String, String>>(){}.getType();
@@ -54,8 +58,6 @@ public class AwesomeAPI implements CoinClient{
     public Double converter(String codigoMoeda1, String codigoMoeda2, Double valor) {
         String endpoint = URL+"/last/"+codigoMoeda1+"-"+codigoMoeda2;
 
-        HttpClient client = HttpClient.newHttpClient();
-
         HttpRequest request = HttpRequest.newBuilder()
                 .GET()
                 .uri(URI.create(endpoint))
@@ -64,11 +66,15 @@ public class AwesomeAPI implements CoinClient{
         String json;
 
         try {
-            json = client.send(request, HttpResponse.BodyHandlers.ofString()).body();
-        } catch (Exception e) {
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() == 404)
+                throw new MoedaNaoEncontradaException("Moeda não encontrada");
+            json = response.body();
+        } catch (MoedaNaoEncontradaException e){
+            throw e;
+        }
+        catch (Exception e) {
             throw new RuntimeException(e);
-        } finally {
-            client.close();
         }
 
         Type type = new TypeToken<Map<String, ConversaoResponse.ConversaoData>>(){}.getType();
@@ -81,8 +87,6 @@ public class AwesomeAPI implements CoinClient{
 
     @Override
     public List<Cotacao> buscarHistoricoCotacao(String moeda, int dias) {
-        HttpClient client = HttpClient.newHttpClient();
-
         HttpRequest request = HttpRequest.newBuilder()
                 .GET()
                 .uri(URI.create(URL+"/daily/"+moeda+"/"+dias))
@@ -93,9 +97,7 @@ public class AwesomeAPI implements CoinClient{
         try {
             json = client.send(request, HttpResponse.BodyHandlers.ofString()).body();
         } catch (Exception e) {
-            throw new RuntimeException(e);
-        } finally {
-            client.close();
+            throw new RequisicaoFalhouException("Falha ao buscar histórico de cotação", e);
         }
 
         Type type = new TypeToken<List<ConversaoResponse.ConversaoData>>(){}.getType();
@@ -128,7 +130,7 @@ public class AwesomeAPI implements CoinClient{
 
         List<Cotacao> cotacoes = new ArrayList<>();
 
-        for (String codigoMoeda :  moedasDisponiveisParaConversaoBRL) {
+        for (String codigoMoeda : moedasDisponiveisParaConversaoBRL) {
             cotacoes.add(buscarHistoricoCotacao(codigoMoeda, 1).getFirst());
         }
 
@@ -137,8 +139,6 @@ public class AwesomeAPI implements CoinClient{
 
     @Override
     public List<String> buscarConversoesDisponiveisDe(String moeda) {
-        HttpClient client = HttpClient.newHttpClient();
-
         HttpRequest request = HttpRequest.newBuilder()
                 .GET()
                 .uri(URI.create(URL+"/available"))
@@ -149,9 +149,7 @@ public class AwesomeAPI implements CoinClient{
         try {
             json = client.send(request, HttpResponse.BodyHandlers.ofString()).body();
         } catch (Exception e) {
-            throw new RuntimeException(e);
-        } finally {
-            client.close();
+            throw new RequisicaoFalhouException("Falha ao buscar conversões disponíveis", e);
         }
 
         Type type = new TypeToken<Map<String, String>>(){}.getType();
@@ -166,8 +164,6 @@ public class AwesomeAPI implements CoinClient{
 
     @Override
     public List<String> buscarConversoesDisponiveisPara(String moeda) {
-        HttpClient client = HttpClient.newHttpClient();
-
         HttpRequest request = HttpRequest.newBuilder()
                 .GET()
                 .uri(URI.create(URL+"/available"))
@@ -178,9 +174,7 @@ public class AwesomeAPI implements CoinClient{
         try {
             json = client.send(request, HttpResponse.BodyHandlers.ofString()).body();
         } catch (Exception e) {
-            throw new RuntimeException(e);
-        } finally {
-            client.close();
+            throw new RequisicaoFalhouException("Falha ao buscar conversões disponíveis", e);
         }
 
         Type type = new TypeToken<Map<String, String>>(){}.getType();
@@ -191,5 +185,10 @@ public class AwesomeAPI implements CoinClient{
                 .map(k -> Arrays.stream(k.split("-")).toList().get(0))
                 .sorted()
                 .toList();
+    }
+
+//    TODO: UTILIZAR ISSO
+    public void close() {
+        client.close();
     }
 }

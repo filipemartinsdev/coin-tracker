@@ -5,6 +5,7 @@ import com.cointracker.model.Cotacao;
 import com.cointracker.model.Moeda;
 import com.cointracker.service.AwesomeAPI;
 import com.cointracker.service.CoinClient;
+import com.google.gson.Gson;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -20,6 +21,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.StringConverter;
 
+import java.net.http.HttpClient;
 import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -27,7 +29,9 @@ import java.util.List;
 import java.util.Locale;
 
 public class MainController {
-    private final CoinClient coinClient = new AwesomeAPI();
+    private final CoinClient coinClient = new AwesomeAPI(
+            new Gson(), HttpClient.newHttpClient()
+    );
 
     @FXML
     private Button btnRefresh;
