@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.chart.AreaChart?>
 <?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
@@ -54,7 +55,10 @@
                               <Button fx:id="btnRefresh" mnemonicParsing="false" onAction="#refreshCotacoes" prefHeight="30.0" prefWidth="196.0" text="Atualizar">
                                  <HBox.margin>
                                     <Insets left="10.0" />
-                                 </HBox.margin></Button>
+                                 </HBox.margin>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor></Button>
                               <ProgressBar fx:id="progressBarCotacao" opacity="0.0" prefHeight="21.0" prefWidth="107.0" HBox.hgrow="ALWAYS">
                                  <effect>
                                     <ColorAdjust hue="-0.52" />
@@ -104,9 +108,9 @@
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Quantidade" />
                               <Spinner fx:id="spinQtdConversao" prefHeight="30.0" prefWidth="71.0" />
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="De" />
-                              <ComboBox fx:id="cBoxMoeda1Conversor" prefHeight="30.0" prefWidth="192.0" promptText="Moeda 1" />
+                              <ComboBox fx:id="cBoxMoeda1Conversor" prefHeight="30.0" prefWidth="192.0" promptText="Moeda 1" styleClass="combo-box" />
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Para" />
-                              <ComboBox fx:id="cBoxMoeda2Conversor" onMouseClicked="#clickCBoxMoeda2" prefHeight="30.0" prefWidth="198.0" promptText="Moeda 2" />
+                              <ComboBox fx:id="cBoxMoeda2Conversor" onMouseClicked="#clickCBoxMoeda2" prefHeight="30.0" prefWidth="198.0" promptText="Moeda 2" styleClass="combo-box" />
                               <Button fx:id="btnCalcularConversao" mnemonicParsing="false" onAction="#calcularConversao" prefHeight="30.0" prefWidth="114.0" text="Calcular" />
                            </children>
                         </HBox>

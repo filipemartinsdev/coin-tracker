@@ -1,5 +1,6 @@
 package com.cointracker;
 
+import atlantafx.base.theme.PrimerLight;
 import javafx.application.Application;
 
 public class Launcher {
