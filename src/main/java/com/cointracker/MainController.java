@@ -148,6 +148,8 @@ public class MainController {
     }
 
     private void setupTableCotacao(){
+        tableCotacao.setCursor(Cursor.HAND);
+
         tableCotacao.setItems(tableCotacaoItens);
 
         setupColCotacaoNome();
@@ -308,6 +310,8 @@ public class MainController {
     }
 
     private void setupTableHistoricoConversao() {
+        tableCotacao.setCursor(Cursor.HAND);
+
         tableHistoricoConversao.setItems(tableHistoricoConversaoItens);
 
         colQuantidadeConversao.setCellValueFactory(new PropertyValueFactory<>("valor"));
@@ -317,6 +321,8 @@ public class MainController {
     }
 
     private void setupTableHistoricoCotacao() {
+        tableCotacao.setCursor(Cursor.HAND);
+
         tableHistoricoCotacao.setItems(tableHistoricoCotacaoItens);
         setupColVariacaoHistoricoCotacao();
         setupColDataHistoricoCotacao();
@@ -411,6 +417,9 @@ public class MainController {
     }
 
     private void setupAreaChartHistoricoCotacao() {
+        chartHistoricoCotacao.setHorizontalGridLinesVisible(false);
+        chartHistoricoCotacao.setVerticalGridLinesVisible(false);
+
         yAxisChartHistoricoCotacao.setTickLabelFormatter(new StringConverter<Number>() {
             private final NumberFormat format = NumberFormat.getNumberInstance(new Locale("pt", "BR"));
 
