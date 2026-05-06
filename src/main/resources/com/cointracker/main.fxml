@@ -23,7 +23,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="581.0" prefWidth="989.0" xmlns="http://javafx.com/javafx/25.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cointracker.MainController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="581.0" prefWidth="989.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cointracker.MainController">
    <children>
       <MenuBar>
         <menus>
@@ -96,12 +96,24 @@
                         <HBox alignment="CENTER" prefHeight="71.0" prefWidth="600.0" spacing="10.0">
                            <children>
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Quantidade" />
-                              <Spinner fx:id="spinQtdConversao" prefHeight="30.0" prefWidth="71.0" />
+                              <Spinner fx:id="spinQtdConversao" prefHeight="30.0" prefWidth="98.0">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor></Spinner>
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="De" />
-                              <ComboBox fx:id="cBoxMoeda1Conversor" onMouseClicked="#setupCBoxMoeda1Conversor" prefHeight="30.0" prefWidth="192.0" promptText="Moeda 1" styleClass="combo-box" />
+                              <ComboBox fx:id="cBoxMoeda1Conversor" onMouseClicked="#setupCBoxMoeda1Conversor" prefHeight="30.0" prefWidth="192.0" promptText="Moeda 1" styleClass="combo-box">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor></ComboBox>
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Para" />
-                              <ComboBox fx:id="cBoxMoeda2Conversor" onMouseClicked="#clickCBoxMoeda2" prefHeight="30.0" prefWidth="198.0" promptText="Moeda 2" styleClass="combo-box" />
-                              <Button fx:id="btnCalcularConversao" mnemonicParsing="false" onAction="#calcularConversao" prefHeight="30.0" prefWidth="114.0" text="Calcular" />
+                              <ComboBox fx:id="cBoxMoeda2Conversor" onMouseClicked="#clickCBoxMoeda2" prefHeight="30.0" prefWidth="198.0" promptText="Moeda 2" styleClass="combo-box">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor></ComboBox>
+                              <Button fx:id="btnCalcularConversao" mnemonicParsing="false" onAction="#calcularConversao" prefHeight="30.0" prefWidth="114.0" text="Calcular">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor></Button>
                            </children>
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="32.0" prefWidth="600.0">
@@ -141,10 +153,19 @@
                                              <HBox.margin>
                                                 <Insets />
                                              </HBox.margin>
+                                             <cursor>
+                                                <Cursor fx:constant="HAND" />
+                                             </cursor>
                                           </ComboBox>
                                           <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Dias:" />
-                                          <Spinner fx:id="spinDiasHistoricoCotacao" prefHeight="30.0" prefWidth="79.0" />
-                                          <Button fx:id="btnBuscarHistoricoCotacao" mnemonicParsing="false" onAction="#buscarHistoricoCotacao" prefHeight="30.0" prefWidth="164.0" text="Buscar" />
+                                          <Spinner fx:id="spinDiasHistoricoCotacao" prefHeight="30.0" prefWidth="79.0">
+                                             <cursor>
+                                                <Cursor fx:constant="HAND" />
+                                             </cursor></Spinner>
+                                          <Button fx:id="btnBuscarHistoricoCotacao" mnemonicParsing="false" onAction="#buscarHistoricoCotacao" prefHeight="30.0" prefWidth="164.0" text="Buscar">
+                                             <cursor>
+                                                <Cursor fx:constant="HAND" />
+                                             </cursor></Button>
                                        </children>
                                     </HBox>
                                     <TableView fx:id="tableHistoricoCotacao" prefHeight="367.0" prefWidth="283.0" VBox.vgrow="ALWAYS">
