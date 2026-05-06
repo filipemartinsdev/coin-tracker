@@ -61,6 +61,8 @@ public class AwesomeAPITest {
                 .thenReturn(response);
         Mockito.when(response.body())
                 .thenReturn("{\"USD\":\"Dólar Americano\",\"EUR\":\"Euro\"}");
+        Mockito.when(response.statusCode())
+                .thenReturn(200);
         Mockito.when(gson.fromJson(Mockito.anyString(), Mockito.any(Type.class)))
                 .thenReturn(mockMap);
 
