@@ -1,13 +1,17 @@
 package com.cointracker.service;
 
+import com.cointracker.Env;
 import com.cointracker.dto.ConversaoResponse;
+import com.cointracker.excetion.ClientMoedaException;
 import com.cointracker.excetion.MoedaNaoEncontradaException;
 import com.cointracker.excetion.RequisicaoFalhouException;
 import com.cointracker.model.Cotacao;
 import com.cointracker.model.Moeda;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import io.github.cdimascio.dotenv.Dotenv;
 
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -33,18 +37,8 @@ public class AwesomeAPI implements CoinClient{
 
     @Override
     public List<Moeda> buscarMoedas() {
-        HttpRequest request = HttpRequest.newBuilder()
-                .GET()
-                .uri(URI.create(URL+"/available/uniq"))
-                .build();
-
-        String json;
-
-        try {
-            json = client.send(request, HttpResponse.BodyHandlers.ofString()).body();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        var response = requestMoedas();
+        String json = response.body();
 
         Type type = new TypeToken<Map<String, String>>(){}.getType();
         Map<String, String> map = gson.fromJson(json, type);
@@ -54,14 +48,46 @@ public class AwesomeAPI implements CoinClient{
                 .toList();
     }
 
-    @Override
-    public Double converter(String codigoMoeda1, String codigoMoeda2, Double valor) {
-        String endpoint = URL+"/last/"+codigoMoeda1+"-"+codigoMoeda2;
+    private HttpResponse<String> requestMoedas(){
+        String endpoint = URL+"/available/uniq";
+
+        if(Env.getChaveAPI() != null)
+            endpoint += "?token=" + Env.getChaveAPI();
 
         HttpRequest request = HttpRequest.newBuilder()
                 .GET()
                 .uri(URI.create(endpoint))
                 .build();
+
+        HttpResponse<String> response;
+
+        try {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (IOException | InterruptedException e ) {
+            throw new RuntimeException(e);
+        }
+
+        if (response.statusCode() != 200) {
+            System.out.println(response.body());
+            throw new ClientMoedaException("Erro no client de moedas!");
+        }
+        else  {
+            return response;
+        }
+    }
+
+    @Override
+    public Double converter(String codigoMoeda1, String codigoMoeda2, Double valor) {
+        String endpoint = URL+"/last/"+codigoMoeda1+"-"+codigoMoeda2;
+
+        if(Env.getChaveAPI() != null)
+            endpoint += "?token=" + Env.getChaveAPI();
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .GET()
+                .uri(URI.create(endpoint))
+                .build();
+
 
         String json;
 
@@ -87,9 +113,14 @@ public class AwesomeAPI implements CoinClient{
 
     @Override
     public List<Cotacao> buscarHistoricoCotacao(String moeda, int dias) {
+        String endpoint = URL+"/daily/"+moeda+"/"+dias;
+
+        if(Env.getChaveAPI() != null)
+            endpoint += "?token=" + Env.getChaveAPI();
+
         HttpRequest request = HttpRequest.newBuilder()
                 .GET()
-                .uri(URI.create(URL+"/daily/"+moeda+"/"+dias))
+                .uri(URI.create(endpoint))
                 .build();
 
         String json;
@@ -139,9 +170,14 @@ public class AwesomeAPI implements CoinClient{
 
     @Override
     public List<String> buscarConversoesDisponiveisDe(String moeda) {
+        String endpoint = URL+"/available";
+
+        if(Env.getChaveAPI() != null)
+            endpoint += "?token=" + Env.getChaveAPI();
+
         HttpRequest request = HttpRequest.newBuilder()
                 .GET()
-                .uri(URI.create(URL+"/available"))
+                .uri(URI.create(endpoint))
                 .build();
 
         String json;
@@ -164,9 +200,14 @@ public class AwesomeAPI implements CoinClient{
 
     @Override
     public List<String> buscarConversoesDisponiveisPara(String moeda) {
+        String endpoint = URL+"/available";
+
+        if(Env.getChaveAPI() != null)
+            endpoint += "?token=" + Env.getChaveAPI();
+
         HttpRequest request = HttpRequest.newBuilder()
                 .GET()
-                .uri(URI.create(URL+"/available"))
+                .uri(URI.create(endpoint))
                 .build();
 
         String json;

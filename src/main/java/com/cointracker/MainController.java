@@ -1,30 +1,39 @@
 package com.cointracker;
 
 import com.cointracker.dto.TableHistoricoConversaoItem;
+import com.cointracker.excetion.ClientMoedaException;
 import com.cointracker.model.Cotacao;
 import com.cointracker.model.Moeda;
 import com.cointracker.service.AwesomeAPI;
 import com.cointracker.service.CoinClient;
 import com.google.gson.Gson;
 import javafx.application.Platform;
+import javafx.application.Preloader;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
+import javafx.scene.Scene;
 import javafx.scene.chart.AreaChart;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
+import javax.swing.*;
+import java.io.IOException;
 import java.net.http.HttpClient;
+import java.sql.SQLOutput;
 import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -32,6 +41,9 @@ public class MainController {
     private final CoinClient coinClient = new AwesomeAPI(
             new Gson(), HttpClient.newHttpClient()
     );
+
+    @FXML
+    private MenuItem menuItemChaveAPI;
 
     @FXML
     private Button btnRefresh;
@@ -138,11 +150,11 @@ public class MainController {
     @FXML
     void initialize() {
         Platform.runLater(this::setupTableCotacao);
-        Platform.runLater(this::setupCBoxMoeda1Conversor);
+//        Platform.runLater(this::setupCBoxMoeda1Conversor);
         Platform.runLater(this::setupTableHistoricoConversao);
         Platform.runLater(this::setupSpinQtdConversao);
         Platform.runLater(this::setupSpinDiasHistoricoCotacao);
-        Platform.runLater(this::setupCBoxMoedaHistorioCotacao);
+//        Platform.runLater(this::setupCBoxMoedaHistorioCotacao);
         Platform.runLater(this::setupTableHistoricoCotacao);
         Platform.runLater(this::setupAreaChartHistoricoCotacao);
     }
@@ -263,13 +275,20 @@ public class MainController {
         }
     }
 
+    @FXML
     private void setupCBoxMoeda1Conversor() {
+        cBoxMoeda1Conversor.getItems().clear();
+
         Task<List<String>> task = new Task<>() {
             @Override
-            protected List<String> call() throws Exception {
-                return coinClient.buscarMoedas().stream()
-                        .map(Moeda::codigo)
-                        .toList();
+            protected List<String> call() {
+                try {
+                    return coinClient.buscarMoedas().stream()
+                            .map(Moeda::codigo)
+                            .toList();
+                } catch (ClientMoedaException e){
+                    return new ArrayList<>();
+                }
             }
         };
 
@@ -287,7 +306,10 @@ public class MainController {
         thread.start();
     }
 
+    @FXML
     private void setupCBoxMoedaHistorioCotacao() {
+        cBoxMoedaHistoricoCotacao.getItems().clear();
+
         Task<List<String>> task = new Task<>() {
             @Override
             protected List<String> call() throws Exception {
@@ -440,6 +462,17 @@ public class MainController {
     }
 
     // finish setup ☝
+
+    @FXML
+    void abrirConfiguracaoChaveAPI() throws IOException {
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(CoinTrackerApplication.class.getResource("chave-api.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 400, 300);
+        stage.setResizable(false);
+        stage.setTitle("Coin Tracker v1.1.0");
+        stage.setScene(scene);
+        stage.show();
+    }
 
     @FXML
     void atualizarGraficoCotacao(){

@@ -27,19 +27,9 @@
    <children>
       <MenuBar>
         <menus>
-          <Menu mnemonicParsing="false" text="File">
+          <Menu mnemonicParsing="false" text="Configurações">
             <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Help">
-            <items>
-              <MenuItem mnemonicParsing="false" text="About" />
+              <MenuItem fx:id="menuItemChaveAPI" mnemonicParsing="false" onAction="#abrirConfiguracaoChaveAPI" text="Chave da API" />
             </items>
           </Menu>
         </menus>
@@ -108,7 +98,7 @@
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Quantidade" />
                               <Spinner fx:id="spinQtdConversao" prefHeight="30.0" prefWidth="71.0" />
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="De" />
-                              <ComboBox fx:id="cBoxMoeda1Conversor" prefHeight="30.0" prefWidth="192.0" promptText="Moeda 1" styleClass="combo-box" />
+                              <ComboBox fx:id="cBoxMoeda1Conversor" onMouseClicked="#setupCBoxMoeda1Conversor" prefHeight="30.0" prefWidth="192.0" promptText="Moeda 1" styleClass="combo-box" />
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Para" />
                               <ComboBox fx:id="cBoxMoeda2Conversor" onMouseClicked="#clickCBoxMoeda2" prefHeight="30.0" prefWidth="198.0" promptText="Moeda 2" styleClass="combo-box" />
                               <Button fx:id="btnCalcularConversao" mnemonicParsing="false" onAction="#calcularConversao" prefHeight="30.0" prefWidth="114.0" text="Calcular" />
@@ -147,7 +137,7 @@
                                  <children>
                                     <HBox alignment="CENTER" prefHeight="51.0" prefWidth="237.0" spacing="10.0">
                                        <children>
-                                          <ComboBox fx:id="cBoxMoedaHistoricoCotacao" prefHeight="30.0" prefWidth="135.0" promptText="Moeda">
+                                          <ComboBox fx:id="cBoxMoedaHistoricoCotacao" onMouseClicked="#setupCBoxMoedaHistorioCotacao" prefHeight="30.0" prefWidth="135.0" promptText="Moeda">
                                              <HBox.margin>
                                                 <Insets />
                                              </HBox.margin>
