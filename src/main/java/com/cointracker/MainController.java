@@ -469,7 +469,7 @@ public class MainController {
         FXMLLoader fxmlLoader = new FXMLLoader(CoinTrackerApplication.class.getResource("chave-api.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 400, 300);
         stage.setResizable(false);
-        stage.setTitle("Coin Tracker v1.1.0");
+        stage.setTitle("Coin Tracker");
         stage.setScene(scene);
         stage.show();
     }
