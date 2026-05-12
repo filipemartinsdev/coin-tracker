@@ -84,7 +84,7 @@ Desenvolvido como projeto acadêmico, o sistema oferece uma interface intuitiva 
 
 ### Pré-requisitos
 
-- Ter uma chave de API da [AwesomeAPI](https://docs.awesomeapi.com.br/) (gratuita)
+- Ter uma chave de API da [AwesomeAPI](https://docs.awesomeapi.com.br/) (Opcional/Gratuito)
 
 ### Windows
 
@@ -173,5 +173,5 @@ Este projeto é de uso **acadêmico**. Distribuição ou uso comercial não auto
 ---
 
 <div align="center">
-  <sub>Desenvolvido com ☕ e muito Java</sub>
+  <sub>Desenvolvido com Java e muito ☕</sub>
 </div>
