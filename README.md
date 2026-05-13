@@ -14,7 +14,7 @@
 
 ---
 
-## 📌 Sobre o Projeto
+## Sobre o Projeto
 
 O **Coin Tracker** é um aplicativo desenvolvido com **Java 21 + JavaFX**, que consome a [AwesomeAPI](https://docs.awesomeapi.com.br/).
 
@@ -22,31 +22,31 @@ Desenvolvido como projeto acadêmico, o sistema oferece uma interface intuitiva 
 
 ---
 
-## ✨ Funcionalidades
+## Funcionalidades
 
-### 📊 Cotações em Tempo Real
+### Cotações em Tempo Real
 - Listagem de diversas moedas (fiats e criptomoedas) com valor atual em BRL (Real Brasileiro)
 - Exibição de **Alta**, **Baixa** e **Variação** do dia
 - Gráfico de variação diária atualizado ao clicar em "Atualizar"
 - Indicador visual de carregamento durante a busca dos dados
 
-### 💸 Conversor de Moedas
+### Conversor de Moedas
 - Conversão entre qualquer par de moedas disponíveis na API
 - Histórico das conversões realizadas na sessão atual
 - Cálculo com taxas de câmbio em tempo real
 
-### 📈 Histórico de Cotações BRL
+### Histórico de Cotações BRL
 - Busca de histórico de até **365 dias** de qualquer moeda
 - Tabela com dados de Fechamento, Alta, Baixa e Variação por data
 - Gráfico de linha ilustrando a evolução da cotação no período
 
-### ⚙️ Configurações
+### Configurações
 - Gerenciamento da chave de API diretamente na interface
 - Opções de salvar e limpar a chave configurada
 
 ---
 
-## 🖥️ Screenshots
+## Interface
 
 <table>
   <tr>
@@ -69,7 +69,7 @@ Desenvolvido como projeto acadêmico, o sistema oferece uma interface intuitiva 
 
 ---
 
-## 🛠️ Tecnologias Utilizadas
+## Tecnologias Utilizadas
 
 | Tecnologia | Descrição |
 |---|---|
@@ -80,7 +80,7 @@ Desenvolvido como projeto acadêmico, o sistema oferece uma interface intuitiva 
 
 ---
 
-## 🚀 Como Executar
+## Como Executar
 
 ### Pré-requisitos
 
@@ -125,7 +125,7 @@ mvn clean javafx:run
 
 ---
 
-## 🔑 Configuração da API
+## Configuração da API
 
 O Coin Tracker utiliza a **AwesomeAPI** para obter as cotações em tempo real.
 
@@ -135,7 +135,7 @@ O Coin Tracker utiliza a **AwesomeAPI** para obter as cotações em tempo real.
 
 ---
 
-## 📝 Conventional Commits
+## Conventional Commits
 
 Este projeto adota o padrão [Conventional Commits](https://www.conventionalcommits.org/pt-br/) para manter um histórico de commits claro e organizado.
 
@@ -147,7 +147,7 @@ Este projeto adota o padrão [Conventional Commits](https://www.conventionalcomm
 
 ---
 
-## 👥 Equipe
+## Equipe
 
 <table>
   <tr>
@@ -163,12 +163,6 @@ Este projeto adota o padrão [Conventional Commits](https://www.conventionalcomm
     </td>
   </tr>
 </table>
-
----
-
-## 📄 Licença
-
-Este projeto é de uso **acadêmico**. Distribuição ou uso comercial não autorizado é proibido.
 
 ---
 
