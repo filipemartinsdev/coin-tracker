@@ -23,7 +23,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="581.0" prefWidth="989.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cointracker.MainController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="581.0" prefWidth="989.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cointracker.MainController">
    <children>
       <MenuBar>
         <menus>
@@ -96,7 +96,7 @@
                         <HBox alignment="CENTER" prefHeight="71.0" prefWidth="600.0" spacing="10.0">
                            <children>
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Quantidade" />
-                              <Spinner fx:id="spinQtdConversao" prefHeight="30.0" prefWidth="98.0">
+                              <Spinner fx:id="spinQtdConversao" prefHeight="30.0" prefWidth="187.0">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor></Spinner>
