@@ -544,7 +544,7 @@ public class MainController {
         };
 
         task.setOnSucceeded(e -> {
-            tableHistoricoConversaoItens.add(new TableHistoricoConversaoItem(
+            tableHistoricoConversaoItens.add(0, new TableHistoricoConversaoItem(
                     qtd, moeda1, moeda2, task.getValue()
             ));
         });

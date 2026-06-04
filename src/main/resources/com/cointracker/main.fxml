@@ -23,7 +23,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="581.0" prefWidth="989.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cointracker.MainController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="581.0" prefWidth="989.0" xmlns="http://javafx.com/javafx/25.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cointracker.MainController">
    <children>
       <MenuBar>
         <menus>
@@ -123,10 +123,10 @@
                         </HBox>
                         <TableView fx:id="tableHistoricoConversao" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                           <columns>
-                              <TableColumn fx:id="colQuantidadeConversao" minWidth="20.0" prefWidth="130.0" text="Quantidade" />
-                            <TableColumn fx:id="colDeConversao" minWidth="20.0" prefWidth="213.0" text="De" />
-                            <TableColumn fx:id="colParaConversao" minWidth="20.0" prefWidth="243.0" text="Para" />
-                              <TableColumn fx:id="colResultadoConversao" minWidth="20.0" prefWidth="187.0" text="Resultado" />
+                              <TableColumn fx:id="colQuantidadeConversao" editable="false" minWidth="20.0" prefWidth="130.0" sortable="false" text="Quantidade" />
+                            <TableColumn fx:id="colDeConversao" editable="false" minWidth="20.0" prefWidth="213.0" sortable="false" text="De" />
+                            <TableColumn fx:id="colParaConversao" editable="false" minWidth="20.0" prefWidth="243.0" sortable="false" text="Para" />
+                              <TableColumn fx:id="colResultadoConversao" editable="false" minWidth="20.0" prefWidth="187.0" sortable="false" text="Resultado" />
                           </columns>
                            <VBox.margin>
                               <Insets bottom="10.0" left="10.0" right="10.0" />
