@@ -480,6 +480,11 @@ public class MainController {
     }
 
     @FXML
+    public void limparConversoes(){
+        tableHistoricoConversaoItens.clear();
+    }
+
+    @FXML
     void abrirConfiguracaoChaveAPI() throws IOException {
         Stage stage = new Stage();
         FXMLLoader fxmlLoader = new FXMLLoader(CoinTrackerApplication.class.getResource("chave-api.fxml"));

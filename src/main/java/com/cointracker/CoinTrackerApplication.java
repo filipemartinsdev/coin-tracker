@@ -1,7 +1,6 @@
 package com.cointracker;
 
-import atlantafx.base.theme.PrimerDark;
-import atlantafx.base.theme.PrimerLight;
+import atlantafx.base.theme.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;

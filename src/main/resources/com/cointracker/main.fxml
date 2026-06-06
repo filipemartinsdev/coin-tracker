@@ -132,6 +132,11 @@
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor></Button>
+                              <Button fx:id="btnLimparConversoes" mnemonicParsing="false" onAction="#limparConversoes" prefHeight="30.0" prefWidth="114.0" styleClass="danger" text="Limpar">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </Button>
                            </children>
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="32.0" prefWidth="600.0">
@@ -189,21 +194,34 @@
                                              </cursor></Button>
                                        </children>
                                     </HBox>
-                                    <TableView fx:id="tableHistoricoCotacao" prefHeight="367.0" prefWidth="283.0" VBox.vgrow="ALWAYS">
-                                      <columns>
-                                        <TableColumn fx:id="colDataHistoricoCotacao" prefWidth="75.0" text="Data" />
-                                        <TableColumn fx:id="colFechamentoHistoricoCotacao" prefWidth="75.0" text="Fechamento" />
-                                          <TableColumn fx:id="colAltaHistoricoCotacao" prefWidth="75.0" text="Alta" />
-                                          <TableColumn fx:id="colBaixaHistoricoCotacao" prefWidth="75.0" text="Baixa" />
-                                          <TableColumn fx:id="colVariacaoHistoricoCotacao" prefWidth="75.0" text="Variação" />
-                                      </columns>
-                                       <columnResizePolicy>
-                                          <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                                       </columnResizePolicy>
-                                       <VBox.margin>
-                                          <Insets bottom="10.0" />
-                                       </VBox.margin>
-                                    </TableView>
+                                    <VBox prefHeight="200.0" prefWidth="100.0" VBox.vgrow="ALWAYS">
+                                       <children>
+                                          <TableView fx:id="tableHistoricoCotacao" prefHeight="367.0" prefWidth="283.0" VBox.vgrow="ALWAYS">
+                                            <columns>
+                                              <TableColumn fx:id="colDataHistoricoCotacao" prefWidth="75.0" text="Data" />
+                                              <TableColumn fx:id="colFechamentoHistoricoCotacao" prefWidth="75.0" text="Fechamento" />
+                                                <TableColumn fx:id="colAltaHistoricoCotacao" prefWidth="75.0" text="Alta" />
+                                                <TableColumn fx:id="colBaixaHistoricoCotacao" prefWidth="75.0" text="Baixa" />
+                                                <TableColumn fx:id="colVariacaoHistoricoCotacao" prefWidth="75.0" text="Variação" />
+                                            </columns>
+                                             <columnResizePolicy>
+                                                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                             </columnResizePolicy>
+                                             <VBox.margin>
+                                                <Insets />
+                                             </VBox.margin>
+                                          </TableView>
+                                          <HBox prefHeight="37.0" prefWidth="520.0">
+                                             <children>
+                                                <Button mnemonicParsing="false" prefHeight="29.0" prefWidth="128.0" styleClass="accent" text="Exportar (CSV)">
+                                                   <HBox.margin>
+                                                      <Insets bottom="4.0" left="4.0" top="4.0" />
+                                                   </HBox.margin>
+                                                </Button>
+                                             </children>
+                                          </HBox>
+                                       </children>
+                                    </VBox>
                                  </children>
                               </VBox>
                               <VBox prefHeight="200.0" prefWidth="100.0">
@@ -215,6 +233,9 @@
                                       <yAxis>
                                         <NumberAxis fx:id="yAxisChartHistoricoCotacao" side="LEFT" />
                                       </yAxis>
+                                       <VBox.margin>
+                                          <Insets />
+                                       </VBox.margin>
                                     </AreaChart>
                                  </children>
                               </VBox>
