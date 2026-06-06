@@ -25,17 +25,23 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.http.HttpClient;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 public class MainController {
     private final CoinClient coinClient = new AwesomeAPI(
@@ -154,15 +160,26 @@ public class MainController {
     private MenuItem temaEscuroBtn;
 
     @FXML
+    private Text conversorInfoValor;
+
+    @FXML
     void initialize() {
         Platform.runLater(this::setupTableCotacao);
-//        Platform.runLater(this::setupCBoxMoeda1Conversor);
         Platform.runLater(this::setupTableHistoricoConversao);
         Platform.runLater(this::setupSpinQtdConversao);
         Platform.runLater(this::setupSpinDiasHistoricoCotacao);
-//        Platform.runLater(this::setupCBoxMoedaHistorioCotacao);
         Platform.runLater(this::setupTableHistoricoCotacao);
         Platform.runLater(this::setupAreaChartHistoricoCotacao);
+        Platform.runLater(this::setupConversorInfoValor);
+        Platform.runLater(this::setupConfirmacaoDeSaida);
+    }
+
+    private void setupConversorInfoValor() {
+        Tooltip tooltip = new Tooltip("Números decimais utilizando \".\"\nExemplo: 50.99");
+
+        tooltip.setShowDelay(javafx.util.Duration.millis(500));
+
+        Tooltip.install(conversorInfoValor, tooltip);
     }
 
     private void setupTableCotacao(){
@@ -467,6 +484,25 @@ public class MainController {
         });
     }
 
+    private void setupConfirmacaoDeSaida(){
+        Platform.runLater(()->{
+            Stage stage = (Stage) tableCotacao.getScene().getWindow();
+
+            stage.setOnCloseRequest(event -> {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Confirmação");
+                alert.setHeaderText("Você realmente deseja sair?");
+                alert.initOwner(stage);
+
+                Optional<ButtonType> result = alert.showAndWait();
+
+                if (result.isPresent() && result.get() == ButtonType.OK)
+                    stage.close();
+                else event.consume();
+            });
+        });
+    }
+
     // finish setup ☝
 
     @FXML
@@ -483,6 +519,86 @@ public class MainController {
     public void limparConversoes(){
         tableHistoricoConversaoItens.clear();
     }
+
+    @FXML
+    public void exportarCSV(){
+        if (tableHistoricoCotacaoItens.isEmpty()) {
+            mostrarErro("Operação inválida", "Tabela de histórico vazia", "Consulte o histórico de uma moeda antes de exportar.");
+            return;
+        }
+
+        Path path = escolherPathParaExportarCSV();
+
+        Task<Void> task = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                escreverCSV(path);
+                return null;
+            }
+        };
+
+        task.setOnFailed(event -> {
+            mostrarErro("Erro", "Erro ao exportar CSV", "");
+        });
+
+        task.setOnSucceeded(event -> {
+            mostrarAlerta("Exportação concluída", "CSV exportado com sucesso", "");
+        });
+
+        Thread thread = new Thread(task);
+        thread.start();
+    }
+
+    private void escreverCSV(Path path) throws IOException {
+        StringBuilder csv = new StringBuilder().append("Data;Fechamento;Alta;Baixa;Variacao\n");
+
+        for(Cotacao cotacao : tableHistoricoCotacaoItens) {
+            csv.append(cotacao.getData()).append(";")
+                    .append(cotacao.getFechamento()).append(";")
+                    .append(cotacao.getAlta()).append(";")
+                    .append(cotacao.getBaixa()).append(";")
+                    .append(cotacao.getVariacao()).append("\n");
+        }
+        Files.writeString(path, csv);
+    }
+
+    private Path escolherPathParaExportarCSV(){
+        FileChooser chooser = new FileChooser();
+        chooser.setTitle("Escolha o destino");
+
+        chooser.setInitialFileName("historico.csv");
+
+        chooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("CSV Files", "*.csv")
+        );
+
+        File file = chooser.showSaveDialog(tableCotacao.getScene().getWindow());
+
+        Path path = file.toPath();
+
+        if (!path.toString().toLowerCase().endsWith(".csv")) {
+            path = Path.of(path + ".csv");
+        }
+
+        return path;
+    }
+
+    private void mostrarAlerta(String title, String header, String content) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+
+    private void mostrarErro(String title, String header, String content){
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+
 
     @FXML
     void abrirConfiguracaoChaveAPI() throws IOException {
