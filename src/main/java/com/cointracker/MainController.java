@@ -1,5 +1,7 @@
 package com.cointracker;
 
+import atlantafx.base.theme.PrimerDark;
+import atlantafx.base.theme.PrimerLight;
 import com.cointracker.dto.TableHistoricoConversaoItem;
 import com.cointracker.exception.ClientMoedaException;
 import com.cointracker.model.Cotacao;
@@ -7,6 +9,7 @@ import com.cointracker.model.Moeda;
 import com.cointracker.service.AwesomeAPI;
 import com.cointracker.service.CoinClient;
 import com.google.gson.Gson;
+import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -143,6 +146,12 @@ public class MainController {
 
     @FXML
     private NumberAxis yAxisChartHistoricoCotacao;
+
+    @FXML
+    private MenuItem temaClaroBtn;
+
+    @FXML
+    private MenuItem temaEscuroBtn;
 
     @FXML
     void initialize() {
@@ -459,6 +468,16 @@ public class MainController {
     }
 
     // finish setup ☝
+
+    @FXML
+    public void ativarTemaClaro(){
+        Application.setUserAgentStylesheet(new PrimerLight().getUserAgentStylesheet());
+    }
+
+    @FXML
+    public void ativarTemaEscuro(){
+        Application.setUserAgentStylesheet(new PrimerDark().getUserAgentStylesheet());
+    }
 
     @FXML
     void abrirConfiguracaoChaveAPI() throws IOException {

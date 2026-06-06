@@ -12,6 +12,7 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
@@ -24,13 +25,20 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="581.0" prefWidth="989.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cointracker.MainController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="581.0" prefWidth="989.0" xmlns="http://javafx.com/javafx/25.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cointracker.MainController">
    <children>
       <MenuBar>
         <menus>
           <Menu mnemonicParsing="false" text="Configurações">
             <items>
               <MenuItem fx:id="menuItemChaveAPI" mnemonicParsing="false" onAction="#abrirConfiguracaoChaveAPI" text="Chave da API" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <Menu mnemonicParsing="false" text="Tema">
+                     <items>
+                        <MenuItem fx:id="temaClaroBtn" mnemonicParsing="false" onAction="#ativarTemaClaro" text="Claro" />
+                        <MenuItem fx:id="temaEscuroBtn" mnemonicParsing="false" onAction="#ativarTemaEscuro" text="Escuro" />
+                     </items>
+                  </Menu>
             </items>
           </Menu>
         </menus>
