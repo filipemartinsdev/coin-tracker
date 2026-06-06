@@ -1,4 +1,4 @@
-package com.cointracker.excetion;
+package com.cointracker.exception;
 
 public class RequisicaoFalhouException extends RuntimeException {
     public RequisicaoFalhouException(String message) {

@@ -1,8 +1,8 @@
 package com.cointracker.service;
 
 import com.cointracker.dto.ConversaoResponse;
-import com.cointracker.excetion.MoedaNaoEncontradaException;
-import com.cointracker.excetion.RequisicaoFalhouException;
+import com.cointracker.exception.MoedaNaoEncontradaException;
+import com.cointracker.exception.RequisicaoFalhouException;
 import com.cointracker.model.Cotacao;
 import com.cointracker.model.Moeda;
 import com.google.gson.Gson;
@@ -15,7 +15,6 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.lang.reflect.Type;
-import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;

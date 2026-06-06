@@ -2,14 +2,13 @@ package com.cointracker.service;
 
 import com.cointracker.Env;
 import com.cointracker.dto.ConversaoResponse;
-import com.cointracker.excetion.ClientMoedaException;
-import com.cointracker.excetion.MoedaNaoEncontradaException;
-import com.cointracker.excetion.RequisicaoFalhouException;
+import com.cointracker.exception.ClientMoedaException;
+import com.cointracker.exception.MoedaNaoEncontradaException;
+import com.cointracker.exception.RequisicaoFalhouException;
 import com.cointracker.model.Cotacao;
 import com.cointracker.model.Moeda;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import io.github.cdimascio.dotenv.Dotenv;
 
 import java.io.IOException;
 import java.lang.reflect.Type;

@@ -1,14 +1,13 @@
 package com.cointracker;
 
 import com.cointracker.dto.TableHistoricoConversaoItem;
-import com.cointracker.excetion.ClientMoedaException;
+import com.cointracker.exception.ClientMoedaException;
 import com.cointracker.model.Cotacao;
 import com.cointracker.model.Moeda;
 import com.cointracker.service.AwesomeAPI;
 import com.cointracker.service.CoinClient;
 import com.google.gson.Gson;
 import javafx.application.Platform;
-import javafx.application.Preloader;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -26,10 +25,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.net.http.HttpClient;
-import java.sql.SQLOutput;
 import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
