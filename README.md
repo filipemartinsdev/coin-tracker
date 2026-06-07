@@ -93,35 +93,53 @@ Desenvolvido como projeto acadêmico, o sistema oferece uma interface intuitiva 
 3. Abra o **Coin Tracker** pelo atalho criado
 4. Vá em **Configurações**, insira sua chave de API e clique em **Salvar**
 
-### Linux
+### Linux (RPM)
 
-1. Baixe o pacote `.deb` ou `.rpm` na seção [Releases](../../releases)
+1. Baixe o pacote `.rpm` na seção [Releases](../../releases)
+
 2. Instale o pacote:
-   ```bash
-   # Debian/Ubuntu
-   sudo dpkg -i coin-tracker.deb
+  ```bash
+  sudo dnf install ./cointracker-1.4.0.rpm
+  ```
+3. Execute o aplicativo pelo menu
 
-   # Fedora/RHEL
-   sudo rpm -i coin-tracker.rpm
-   ```
-3. Execute o aplicativo pelo menu ou pelo terminal:
-   ```bash
-   coin-tracker
-   ```
-4. Vá em **Configurações**, insira sua chave de API e clique em **Salvar**
+### Linux (app-image)
 
-### Rodando pelo Código-Fonte
+Se preferir executar sem instalar, ou utilizar em distribuições sem suporte a RPM:
+
+1. Baixe o pacote `.tar.gz` na seção [Releases](../../releases)
+
+2. Decompacte o pacote
+
+  ````bash
+  tar -xzf CoinTracker-1.4.0-linux-x64.tar.gz
+  ````
+
+4. Execute o arquivo binário
+
+  ````bash
+  cd CoinTracker/bin
+  ./cointracker
+  ````
+
+
+### Código-Fonte
 
 Se preferir compilar manualmente:
 
-```bash
-# Clone o repositório
-git clone https://github.com/filipemartinsdev/coin-tracker.git
-cd coin-tracker
+1. Clone o repositório
 
-# Compile e execute com Maven
-mvn clean javafx:run
+```bash
+git clone https://github.com/filipemartinsdev/coin-tracker.git
 ```
+
+2. Compile e execute com Maven
+
+````bash
+cd coin-tracker
+mvn clean javafx:run
+````
+
 
 ---
 
