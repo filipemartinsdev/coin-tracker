@@ -29,7 +29,7 @@ Desenvolvido como projeto acadêmico, o sistema oferece uma interface intuitiva 
 - Gráfico de variação diária atualizado ao clicar em "Atualizar"
 - Indicador visual de carregamento durante a busca dos dados
 
-### Conversor de Moedas
+### Conversor de Moedas  
 - Conversão entre qualquer par de moedas disponíveis na API
 - Histórico das conversões realizadas na sessão atual
 - Cálculo com taxas de câmbio em tempo real
@@ -38,10 +38,11 @@ Desenvolvido como projeto acadêmico, o sistema oferece uma interface intuitiva 
 - Busca de histórico de até **365 dias** de qualquer moeda
 - Tabela com dados de Fechamento, Alta, Baixa e Variação por data
 - Gráfico de linha ilustrando a evolução da cotação no período
+- Exportador para CSV para salvar os dados na sua máquina
 
 ### Configurações
-- Gerenciamento da chave de API diretamente na interface
-- Opções de salvar e limpar a chave configurada
+- Gerenciamento da chave de API com opções de salvar e limpar a chave configurada
+- Opção para alterar entre os temas Claro e Escuro
 
 ---
 
