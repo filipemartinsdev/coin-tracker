@@ -62,7 +62,7 @@ Desenvolvido como projeto acadêmico, o sistema oferece uma interface intuitiva 
   </tr>
   <tr>
     <td><img src="./images/historico-de-cotacoes.png" width="400"/></td>
-    <td><img src="./images/configuracoes.png" width="400"/></td>
+    <td><img src="./images/chave-API.png" width="400"/></td>
   </tr>
 </table>
 
