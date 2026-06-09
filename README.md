@@ -1,9 +1,9 @@
 <div align="center">
 
-<img src="https://img.shields.io/badge/version-1.4.0-b5451b?style=for-the-badge" alt="Version 1.2.0"/>
-<img src="https://img.shields.io/badge/Java-21-b5451b?style=for-the-badge&logo=openjdk&logoColor=white" alt="Java 21"/>
-<img src="https://img.shields.io/badge/JavaFX-21-b5451b?style=for-the-badge&logo=java&logoColor=white" alt="JavaFX"/>
-<img src="https://img.shields.io/badge/Maven-3.9+-b5451b?style=for-the-badge&logo=apachemaven&logoColor=white" alt="Maven"/>
+<img src="https://img.shields.io/badge/version-1.4.0-black?style=for-the-badge" alt="Version 1.2.0"/>
+<img src="https://img.shields.io/badge/Java-21-tomato?style=for-the-badge&logo=openjdk&logoColor=white" alt="Java 21"/>
+<img src="https://img.shields.io/badge/JavaFX-21-tomato?style=for-the-badge&logo=java&logoColor=white" alt="JavaFX"/>
+<img src="https://img.shields.io/badge/Maven-3.9-orange?style=for-the-badge&logo=apachemaven" alt="Maven"/>
 
 # 💱 Coin Tracker
 
